@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Deploy to Server 1
       - name: Deploy to EC2 Server 1
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          debug: true
           script: |
             cd /var/www/html/native-php-app-master || exit
             git fetch --all
@@ -27,13 +27,13 @@ jobs:
             sudo chown -R www-data:www-data /var/www/html/native-php-app-master
             sudo systemctl restart apache2
 
-      # Deploy to Server 2
       - name: Deploy to EC2 Server 2
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST_SERVER2 }}
           username: ${{ secrets.EC2_USER2 }}
           key: ${{ secrets.EC2_SSH_KEY_SERVER2 }}
+          debug: true
           script: |
             cd /var/www/html || exit
             git fetch --all
