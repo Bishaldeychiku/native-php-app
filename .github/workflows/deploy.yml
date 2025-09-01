@@ -22,7 +22,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.ID_RSA }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           source: "."
           target: "~/app"
 
@@ -31,7 +31,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.ID_RSA }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/app
             # install dependencies if needed
