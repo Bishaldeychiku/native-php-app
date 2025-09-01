@@ -31,7 +31,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AUTHORIZED_KEYS }}
+          key: ${{ secrets.ID_RSA }}
           script: |
             cd ~/app
             # install dependencies if needed
