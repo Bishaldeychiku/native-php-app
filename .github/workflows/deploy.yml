@@ -23,6 +23,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "./"           # current repo directory
           target: "/var/www/html/native-php-app-master"        # destination on EC2
+          overwrite: true
 
       # ✅ Step 3: Run deployment commands on EC2
       - name: Run deploy script on EC2
