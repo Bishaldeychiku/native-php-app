@@ -1,44 +1,42 @@
-name: Deploy to EC2
+name: Deploy to EC2 Servers
 
 on:
   push:
     branches:
-      - main   # Change this if your default branch is "master"
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Step 1: Checkout your repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      # ✅ Step 2: Copy files from repo → EC2 instance
-      - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.1.7
+      # Deploy to Server 1
+      - name: Deploy to EC2 Server 1
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./"           # current repo directory
-          target: "/var/www/html/native-php-app-master"        # destination on EC2
-          overwrite: true
-
-      # ✅ Step 3: Run deployment commands on EC2
-      - name: Run deploy script on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.EC2_HOST1 }}
+          username: ${{ secrets.EC2_USER1 }}
+          key: ${{ secrets.EC2_SSH_KEY1 }}
           script: |
-            cd ~/app
-            # Example: install dependencies if needed
-            # npm install
-            # composer install
-            # pip install -r requirements.txt
+            cd /var/www/html/native-php-app-master || exit
+            git fetch --all
+            git reset --hard origin/main
+            sudo chown -R www-data:www-data /var/www/html/native-php-app-master
+            sudo systemctl restart apache2
 
-            # Restart service (adjust to your app)
-            sudo systemctl restart haproxy || true
-            echo "✅ Deployment successful!"
+      # Deploy to Server 2
+      - name: Deploy to EC2 Server 2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST2 }}
+          username: ${{ secrets.EC2_USER2 }}
+          key: ${{ secrets.EC2_SSH_KEY2 }}
+          script: |
+            cd /var/www/html || exit
+            git fetch --all
+            git reset --hard origin/main
+            sudo chown -R www-data:www-data /var/www/html
+            sudo systemctl restart apache2
