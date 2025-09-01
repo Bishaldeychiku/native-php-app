@@ -25,6 +25,9 @@ jobs:
           source: "./"
           target: "/var/www/html/native-php-app-master"
           overwrite: true
+          strip_components: 1
+          exclude: |
+            .git
 
       # ✅ Step 3a: Run deployment commands on EC2 (Server 1)
       - name: Run deploy script on EC2 (Server 1)
@@ -49,6 +52,9 @@ jobs:
           source: "./"
           target: "/var/www/html"
           overwrite: true
+          strip_components: 1
+          exclude: |
+            .git
 
       # ✅ Step 3b: Run deployment commands on EC2 (Server 2)
       - name: Run deploy script on EC2 (Server 2)
