@@ -41,7 +41,7 @@
 </header>
 
 <article class="main container">
-    <h2 class="text-center mt-5">artblog</h2>
+    <h2 class="text-center mt-5">artblooooooooog</h2>
 </article>
 
 <!-- Optional JavaScript -->
