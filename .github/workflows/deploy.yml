@@ -3,7 +3,7 @@ name: Deploy to App Servers
 on:
   push:
     branches:
-      - main   # Change if you want another branch
+      - main   # change branch if needed
 
 jobs:
   deploy:
@@ -13,25 +13,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Debug - test raw SSH connection
+      # 🔎 Debug SSH connection to App Server 1
       - name: Test SSH Connection to App Server 1
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo '✅ Connected to App Server 1'"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_HOST }} "echo '✅ Connected to App Server 1'"
 
+      # 🔎 Debug SSH connection to App Server 2
       - name: Test SSH Connection to App Server 2
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER_SERVER2 }}@${{ secrets.EC2_HOST_SERVER2 }} "echo '✅ Connected to App Server 2'"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_HOST_SERVER2 }} "echo '✅ Connected to App Server 2'"
 
       # 🚀 Deploy to App Server 1
       - name: Deploy to App Server 1
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/html/native-php-app-master || exit 1
@@ -43,7 +44,7 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST_SERVER2 }}
-          username: ${{ secrets.EC2_USER_SERVER2 }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/html/native-php-app-master || exit 1
