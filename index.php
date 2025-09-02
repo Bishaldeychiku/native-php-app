@@ -16,7 +16,7 @@
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Simple native app</a>
+        <a class="navbar-brand" href="#">Art Blog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +41,7 @@
 </header>
 
 <article class="main container">
-    <h2 class="text-center mt-5">artblooooeeeeeeeeeeooooog</h2>
+    <h2 class="text-center mt-5">Welcome to artblog</h2>
 </article>
 
 <!-- Optional JavaScript -->
