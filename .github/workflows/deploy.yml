@@ -3,7 +3,7 @@ name: Deploy to App Servers
 on:
   push:
     branches:
-      - main   # change branch if needed
+      - main   # change if needed
 
 jobs:
   deploy:
@@ -36,11 +36,14 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/html/native-php-app-master
+            echo "Switching remote to SSH..."
+            git remote set-url origin git@github.com:Bishaldeychiku/native-php-app.git
             echo "Fetching latest code..."
             git fetch origin main
             git reset --hard origin/main
             git clean -fd
             echo "✅ Deployment done on $(hostname)"
+            git log -1 --oneline
 
       # 🚀 Deploy to App Server 2
       - name: Deploy to App Server 2
@@ -51,8 +54,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/html/native-php-app-master
+            echo "Switching remote to SSH..."
+            git remote set-url origin git@github.com:Bishaldeychiku/native-php-app.git
             echo "Fetching latest code..."
             git fetch origin main
             git reset --hard origin/main
             git clean -fd
             echo "✅ Deployment done on $(hostname)"
+            git log -1 --oneline
