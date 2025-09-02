@@ -12,7 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      - name: Debug SSH Key
+        run: |
+          echo "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}"
+          echo "${{ secrets.EC2_SSH_KEY }}" | head -n 2
       # Deploy to App Server 1
       - name: Deploy to App Server 1
         uses: appleboy/ssh-action@v1.2.0
