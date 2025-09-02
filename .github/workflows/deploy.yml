@@ -35,9 +35,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/html/native-php-app-master || exit 1
-            git pull origin main
-            echo "✅ Deployment done on App Server 1"
+            cd /var/www/html/native-php-app-master
+            echo "Fetching latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+            git clean -fd
+            echo "✅ Deployment done on $(hostname)"
 
       # 🚀 Deploy to App Server 2
       - name: Deploy to App Server 2
@@ -47,6 +50,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/html/native-php-app-master || exit 1
-            git pull origin main
-            echo "✅ Deployment done on App Server 2"
+            cd /var/www/html/native-php-app-master
+            echo "Fetching latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+            git clean -fd
+            echo "✅ Deployment done on $(hostname)"
